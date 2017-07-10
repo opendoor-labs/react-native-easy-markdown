@@ -42,8 +42,8 @@ class Markdown extends Component {
         const parseTree = this.parser(blockSource, {inline: this.props.parseInline});
         const outputResult = this.reactOutput(parseTree);
 
-        const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
-        const styles = StyleSheet.create(Object.assign(defaultStyles, this.props.markdownStyles));
+        const defaultStylesObj = this.props.useDefaultStyles ? defaultStyles : {};
+        const styles = StyleSheet.create(Object.assign(defaultStylesObj, this.props.markdownStyles));
 
         this.state = {
             syntaxTree: outputResult,
@@ -64,9 +64,9 @@ class Markdown extends Component {
         }
 
         if (nextProps.markdownStyles !== this.props.markdownStyles) {
-            const defaultStyles = this.props.useDefaultStyles ? defaultStyles : {};
+            const defaultStylesObj = this.props.useDefaultStyles ? defaultStyles : {};
 
-            newState.styles = StyleSheet.create(Object.assign(defaultStyles, nextProps.markdownStyles));
+            newState.styles = StyleSheet.create(Object.assign(defaultStylesObj, nextProps.markdownStyles));
         }
 
         if (Object.keys(newState).length !== 0) {
