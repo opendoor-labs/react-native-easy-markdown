@@ -21,6 +21,7 @@ class Markdown extends Component {
         renderImage: React.PropTypes.func,
         renderLink: React.PropTypes.func,
         renderListBullet: React.PropTypes.func,
+        TextBlock: React.PropTypes.func,
     }
 
     static defaultProps = {
@@ -28,6 +29,7 @@ class Markdown extends Component {
         useDefaultStyles: true,
         parseInline: false,
         markdownStyles: {},
+        TextBlock: Text,
     }
 
     constructor(props) {
@@ -130,10 +132,11 @@ class Markdown extends Component {
     renderListBullet(ordered, index) {
 
         const {styles} = this.state;
+        const TextBlock = this.props.TextBlock;
 
         if (ordered) {
             return(
-                <Text style={styles.listItemNumber}>{index + '.'}</Text>
+                <TextBlock style={styles.listItemNumber}>{index + '.'}</TextBlock>
             );
         }
 
@@ -148,6 +151,8 @@ class Markdown extends Component {
 
         let children = this.renderNodes(node.props.children, key, extras);
         const childrenTypes = children.map((node) => node.type.displayName);
+        
+        const TextBlock = this.props.TextBlock;
 
         let isTextOnly = true;
         for (let i = 0; i < childrenTypes.length; i++) {
@@ -161,9 +166,9 @@ class Markdown extends Component {
             return(
                 <View style={styles.listItem} key={key}>
                     {this.props.renderListBullet ? this.props.renderListBullet(extras.ordered, index) : this.renderListBullet(extras.ordered, index)}
-                    <Text style={[styles.listItemContent, styles.listItemTextContent]}>
+                    <TextBlock style={[styles.listItemContent, styles.listItemTextContent]}>
                         {children}
-                    </Text>
+                    </TextBlock>
                 </View>
             );
         } else {
@@ -219,6 +224,8 @@ class Markdown extends Component {
 
         const nodes = this.renderNodes(node.props.children, key, extras);
         const childrenTypes = nodes.map((node) => node.type.displayName);
+        
+        const TextBlock = this.props.TextBlock;
 
         let isTextOnly = true;
         for (let i = 0; i < childrenTypes.length; i++) {
@@ -230,9 +237,9 @@ class Markdown extends Component {
 
         if (isTextOnly) {
             return(
-                <Text key={key} style={[styles.block, styles.textBlock]}>
+                <TextBlock key={key} style={[styles.block, styles.textBlock]}>
                     {nodes}
-                </Text>
+                </TextBlock>
             );
         } else {
             return(
